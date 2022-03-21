@@ -15,63 +15,7 @@
 
 
 # virtual methods
-.method public fun(IISZ)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method public fun(IZSI)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method public fun(ISZI)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method public fun(IZIS)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method public fun(I)I
+.method public fun(I)I
     .locals 4
 
     const/4 p0, 0x0
@@ -108,63 +52,7 @@
     return v1
 .end method
 
-.method protected onCreate(Landroid/os/Bundle;BLjava/lang/String;I)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method protected onCreate(Landroid/os/Bundle;BILjava/lang/String;)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method protected onCreate(Landroid/os/Bundle;Ljava/lang/String;BI)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method protected onCreate(Landroid/os/Bundle;IBLjava/lang/String;)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method protected onCreate(Landroid/os/Bundle;)V
+.method protected onCreate(Landroid/os/Bundle;)V
     .locals 3
 
     const/16 v0, 0xa

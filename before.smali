@@ -14,63 +14,7 @@
     return-void
 .end method
 
-.method public static getGotoMessage(ZLjava/lang/String;F)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method public static getGotoMessage(Ljava/lang/String;FZ)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method public static getGotoMessage(ZFLjava/lang/String;)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method public static getGotoMessage(FZLjava/lang/String;)V
-    .locals 0
-
-    const/16 p0, 0x02
-
-    const/16 p1, 0xff
-
-    div-int p2, p0, p1
-
-    sub-int p3, p2, p1
-
-    int-to-float p0, p3
-
-    return-void
-.end method.method public static getGotoMessage()Ljava/lang/String;
+.method public static getGotoMessage()Ljava/lang/String;
     .locals 5
 
     .prologue

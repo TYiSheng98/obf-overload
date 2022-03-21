@@ -12,23 +12,23 @@ class method_overload():
 		self.content = None
 		self.filename = None
 		self.is_adding_methods = True
-
+		# List of parameter types that may exists in new overload methods
 		self.param_types = ["Ljava/lang/String;", "Z", "B", "S", "C", "I", "F"]
 
-	def read_smali(self, filename):
+	def read_smali_file(self, filename):
 		self.filename = filename
 
 		# Read Smali file
 		with open(self.filename, "r") as f:
 			self.content = f.read()
 
-	def get_smali_method_overload(self):
+	def get_hardcoded_method_body(self):
 		with open("body.txt") as fp:
 			data = fp.read()
 		return data
 
 	def add_method_overloads(self, smali_files: List[str], class_names_to_ignore: Set[str]):
-		overloaded_method_body = self.get_smali_method_overload()
+		overloaded_method_body = self.get_hardcoded_method_body()
 		added_methods = 0
 
 		for smali_file in smali_files:
@@ -37,9 +37,9 @@ class method_overload():
 		print(added_methods,' new overloaded methods were added!')
 
 
-	def add_method_overloads_to_file(self,smali_file: str, overloaded_method_body: str, class_names_to_ignore: Set[str]):
-		new_methods_num: int = 0
-		self.read_smali(smali_file)
+	def add_method_overloads_to_file(self, smali_filename: str, overloaded_method_body: str, class_names_to_ignore: Set[str]):
+		new_methods_counter = 0
+		self.read_smali_file(smali_filename)
 
 		# .class <other_optional_stuff> <class_name;>  # Every class name ends with ;
 		class_pattern = re.compile(r"\.class.+?(?P<class_name>\S+?;)", re.UNICODE)
@@ -51,12 +51,13 @@ class method_overload():
 			r"(?P<method_return>\S+)",
 			re.UNICODE,
 		)
-		s = StringIO(self.content)
+		in_file = StringIO(self.content)
 
-		with open( "changed_"+smali_file , "w") as out_file:
+		# need to write to same filename when building the apk, added changed_ as poc
+		with open( "changed_" + smali_filename , "w") as out_file:
 			skip_remaining_lines = False
 			class_name = None
-			for line in s:
+			for line in in_file:
 
 				if skip_remaining_lines:
 					out_file.write(line)
@@ -97,9 +98,8 @@ class method_overload():
 						and " abstract " not in line
 				):
 					# Create lists with random parameters to be added to the method
-					# signature. Add 4 overloads for each method and for each overload
-					# use 3 random params.
-					for params in get_random_list_permutations(random.sample(self.param_types, 3))[:4]:
+					# signature. Add 8 overloads for each method and for each overload, use 5 random params.
+					for params in get_random_list_permutations(random.sample(self.param_types, 5))[:8]:
 						new_param = "".join(params)
 						# Update parameter list and add void return type.
 						overloaded_signature = line.replace(
@@ -113,14 +113,14 @@ class method_overload():
 						)
 						out_file.write(overloaded_signature)
 						out_file.write(overloaded_method_body)
-						new_methods_num += 1
+						new_methods_counter += 1
 
 					# Print original method.
 					out_file.write(line)
 				else:
 					out_file.write(line)
 
-		return new_methods_num
+		return new_methods_counter
 
 
 def get_android_class_names():
@@ -136,10 +136,13 @@ def get_random_list_permutations(input_list: list) -> list:
 
 
 def main():
-	android_class_names: Set[str] = set(get_android_class_names())
-	a = method_overload()
-	b=[f for f in os.listdir('app-release\smali\com\example\hello') if f.endswith('.smali')]
-	a.add_method_overloads(b, android_class_names)
+	android_class_names = set(get_android_class_names())
+	overloaded = method_overload()
+	# list_smali_file = ["MainActivity.smali"]
+	list_smali_file = ["before.smali"]
+	# use the below line if reading from a decompiled directory
+	# list_smali_file = [f for f in os.listdir('app-release\smali\com\example\hello') if f.endswith('.smali')]
+	overloaded.add_method_overloads(list_smali_file, android_class_names)
 
 
 if __name__ == '__main__':
