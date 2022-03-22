@@ -34,7 +34,7 @@ class method_overload():
 		for smali_file in smali_files:
 			added_methods += self.add_method_overloads_to_file( smali_file, overloaded_method_body,class_names_to_ignore)
 
-		print(added_methods,' new overloaded methods were added!')
+		print(added_methods,' new overloaded methods were added in the smali directory')
 
 
 	def add_method_overloads_to_file(self, smali_filename: str, overloaded_method_body: str, class_names_to_ignore: Set[str]):
@@ -54,7 +54,7 @@ class method_overload():
 		in_file = StringIO(self.content)
 
 		# need to write to same filename when building the apk, added changed_ as poc
-		with open( "changed_" + smali_filename , "w") as out_file:
+		with open( smali_filename , "w") as out_file:
 			skip_remaining_lines = False
 			class_name = None
 			for line in in_file:
@@ -98,8 +98,8 @@ class method_overload():
 						and " abstract " not in line
 				):
 					# Create lists with random parameters to be added to the method
-					# signature. Add 8 overloads for each method and for each overload, use 5 random params.
-					for params in get_random_list_permutations(random.sample(self.param_types, 5))[:8]:
+					# signature. Add 3 overloads for each method and for each overload, use 5 random params.
+					for params in get_random_list_permutations(random.sample(self.param_types, 5))[:3]:
 						new_param = "".join(params)
 						# Update parameter list and add void return type.
 						overloaded_signature = line.replace(
@@ -124,7 +124,7 @@ class method_overload():
 
 
 def get_android_class_names():
-	with open('android_class_names_api_27.txt', "r") as file:
+	with open('android_class_names.txt', "r") as file:
 		# Return a list with the non blank lines contained in the file.
 		return list(filter(None, (line.rstrip() for line in file)))
 
@@ -139,9 +139,14 @@ def main():
 	android_class_names = set(get_android_class_names())
 	overloaded = method_overload()
 	# list_smali_file = ["MainActivity.smali"]
-	list_smali_file = ["before.smali"]
+	# list_smali_file = ["before.smali"]
+	decompiled_output_path = os.path.join(os.getcwd(), 'app-release\smali\com\example\hello')
 	# use the below line if reading from a decompiled directory
-	# list_smali_file = [f for f in os.listdir('app-release\smali\com\example\hello') if f.endswith('.smali')]
+	list_smali_file = [f for f in os.listdir(decompiled_output_path) if f.endswith('.smali')]
+	for k,file in enumerate(list_smali_file):
+		file = os.path.join(decompiled_output_path, file)
+		list_smali_file[k]= file
+
 	overloaded.add_method_overloads(list_smali_file, android_class_names)
 
 
